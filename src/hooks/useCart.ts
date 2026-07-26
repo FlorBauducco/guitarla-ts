@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { CartItem, Guitar } from "../types";
 
 export const useCart = () => {
@@ -49,20 +49,11 @@ export const useCart = () => {
     setCart([]);
   }
 
-  //State Derivado
-  const isEmpty = useMemo(() => cart.length === 0, [cart]);
-  const cartTotal = useMemo(
-    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
-    [cart],
-  );
-
   return {
     cart,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
     clearCart,
-    isEmpty,
-    cartTotal,
   };
 };
