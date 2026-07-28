@@ -1,22 +1,14 @@
 import { useMemo, type ActionDispatch } from "react";
-import type { CartItem, Guitar } from "../types";
+import type { CartItem } from "../types";
 import type { CartAtions } from "../reducers/cart-reducer";
 
 type HeaderProps = {
   cart: CartItem[];
   dispatch: ActionDispatch<[action: CartAtions]>;
-  increaseQuantity: (id: Guitar["id"]) => void;
-  decreaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
 };
 
-export default function Header({
-  cart,
-  dispatch,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-}: HeaderProps) {
+export default function Header({ cart, dispatch, clearCart }: HeaderProps) {
   //State Derivado
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
   const cartTotal = useMemo(
@@ -75,7 +67,12 @@ export default function Header({
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => decreaseQuantity(guitar.id)}
+                                onClick={() =>
+                                  dispatch({
+                                    type: "decrease-quantity",
+                                    payload: { id: guitar.id },
+                                  })
+                                }
                               >
                                 -
                               </button>
@@ -83,7 +80,12 @@ export default function Header({
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => increaseQuantity(guitar.id)}
+                                onClick={() =>
+                                  dispatch({
+                                    type: "increase-quantity",
+                                    payload: { id: guitar.id },
+                                  })
+                                }
                               >
                                 +
                               </button>
